@@ -1,0 +1,20 @@
+# Maven 관련
+target/                 # Maven 빌드 아티팩트
+*.log                   # 로그 파일
+
+# Eclipse 관련
+.metadata/              # Eclipse 프로젝트 설정 폴더
+*.iml                   # IntelliJ IDEA 프로젝트 파일 (Eclipse에서는 사용 안 함)
+*.classpath             # Eclipse 클래스 경로 설정 파일
+*.project               # Eclipse 프로젝트 설정 파일
+.settings/              # Eclipse 설정 파일
+
+# Java 관련
+*.class                 # 컴파일된 클래스 파일
+*.jar                   # 빌드된 JAR 파일
+*.war                   # 빌드된 WAR 파일
+*.ear                   # 빌드된 EAR 파일
+
+# OS 및 환경 관련
+.DS_Store               # macOS에서 생성되는 파일
+Thumbs.db               # Windows에서 생성되는 파일
