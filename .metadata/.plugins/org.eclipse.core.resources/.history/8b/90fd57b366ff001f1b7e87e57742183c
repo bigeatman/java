@@ -1,0 +1,8 @@
+package dev.java.practice.ch3;
+
+public class AccuracyExample {
+	public AccuracyExample() {
+		int apple = 1;
+		double pieceUnit = 0.7;
+	}
+}

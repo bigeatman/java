@@ -1,0 +1,6 @@
+package dev.java.practice.ch3;
+
+public class AccuracyExample2 {
+	public AccuracyExample2() {
+	}
+}

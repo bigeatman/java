@@ -1,0 +1,8 @@
+package dev.java.practice.ch3;
+
+public class InputDataCheckNaNExample {
+	public InputDataCheckNaNExample() {
+		String userInput = "NaN";
+		double val = Double.valueOf(userInput);
+	}
+}

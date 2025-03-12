@@ -1,0 +1,46 @@
+package dev.java.practice.ch3;
+
+import java.lang.reflect.InvocationTargetException;
+
+public class BitReverseOperatorExample {
+	public BitReverseOperatorExample() {
+		int v1 = 10;
+		int v2 = ~v1;
+		int v3 = ~v1 + 1;
+
+		System.out.println(toBinaryString(v1) + " (십진수 : " + v1 + ")");
+		System.out.println(toBinaryString(v2) + " (십진수 : " + v2 + ")");
+		System.out.println(toBinaryString(v3) + " (십진수 : " + v3 + ")");
+	}
+
+	private String toBinaryString(int v1) {
+		String str = Integer.toBinaryString(v1);
+		StringBuilder builder = new StringBuilder();
+
+		for (int i = 1; i <= 32; i++) {
+			try {
+				char ch = str.charAt(i - 1);
+				builder.append(ch);
+				addSeperator(builder, i, false);
+			} catch (StringIndexOutOfBoundsException e) {
+				builder.insert(0, "0");
+				addSeperator(builder, i, true);
+			}
+		}
+
+		return builder.toString();
+	}
+
+	private void addSeperator(StringBuilder builder, int i, boolean isFirst) {
+		if ((i == 0) || (i % 4 != 0)) {
+			return;
+		}
+
+		if (isFirst) {
+			builder.append("0");
+		} else {
+			builder.insert(0, " ");
+		}
+
+	}
+}

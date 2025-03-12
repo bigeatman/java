@@ -1,0 +1,14 @@
+package dev.java.practice.ch3;
+
+public class StringEqualsExample {
+	public StringEqualsExample() {
+		String strVal1 = "신민철";
+		String strVal2 = "신민철";
+		String strVal3 = new String("신민철");
+
+		System.out.println(strVal1 == strVal2);
+		System.out.println(strVal1 == strVal3);
+		System.out.println();
+		System.out.println(strVal1.equals(strVal2));
+	}
+}

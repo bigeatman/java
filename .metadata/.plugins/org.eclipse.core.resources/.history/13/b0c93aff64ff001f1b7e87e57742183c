@@ -1,0 +1,10 @@
+package dev.java.practice.ch3;
+
+public class ArithmeticOperatorExample {
+	public ArithmeticOperatorExample() {
+		int v1 = 5;
+		int v2 = 2;
+		
+		int result 1 = v1 + v2;
+	}
+}

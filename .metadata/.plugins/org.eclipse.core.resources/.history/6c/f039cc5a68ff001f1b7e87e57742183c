@@ -1,0 +1,8 @@
+package dev.java.practice.ch3;
+
+public class CompareOperatorExample {
+	public CompareOperatorExample() {
+		// TODO Auto-generated constructor stub
+	}
+
+}

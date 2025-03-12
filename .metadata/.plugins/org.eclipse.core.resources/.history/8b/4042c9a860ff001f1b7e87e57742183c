@@ -1,0 +1,12 @@
+package dev.java.practice.ch3;
+
+public class SignOperatorExample {
+	public SignOperatorExample() {
+		int x = -100;
+		int result = +x;
+		int result2 = -x;
+
+		System.out.println("Result1 : " + result);
+
+	}
+}
