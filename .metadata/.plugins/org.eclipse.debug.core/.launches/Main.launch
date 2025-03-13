@@ -14,6 +14,7 @@
     <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.m2e.launchconfig.classpathProvider"/>
     <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="dev.java.practice.Main"/>
     <stringAttribute key="org.eclipse.jdt.launching.MODULE_NAME" value="dev.java.practice"/>
+    <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="SUNDAY"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="dev.java.practice"/>
     <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.m2e.launchconfig.sourcepathProvider"/>
 </launchConfiguration>

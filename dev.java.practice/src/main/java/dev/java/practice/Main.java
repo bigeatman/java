@@ -11,7 +11,12 @@ public class Main {
 	private static final String DIRECTORY = System.getProperty("user.dir") + "\\src\\main\\java\\dev\\java\\practice";
 
 	public static void main(String[] args) throws Exception {
-		Class.forName(getLastChangedClass()).getConstructor(null).newInstance(null);
+		try {
+			Class.forName(getLastChangedClass()).getConstructor(null).newInstance(null);
+		} catch (NoSuchMethodException e) {
+			Class.forName(getLastChangedClass()).getConstructor(String[].class).newInstance((Object) args);
+		}
+
 	}
 
 	private static String getLastChangedClass() throws Exception {
