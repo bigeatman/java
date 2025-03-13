@@ -18,4 +18,4 @@ target/                 # Maven 빌드 아티팩트
 # OS 및 환경 관련
 .DS_Store               # macOS에서 생성되는 파일
 Thumbs.db               # Windows에서 생성되는 파일
-./metadata
+/.metadata

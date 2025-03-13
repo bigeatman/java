@@ -4,27 +4,4 @@
   <artifactId>dev.java.practice</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>sample</name>
-  
-  <build>
-    <plugins>
-        <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <version>3.0.0</version>
-            <executions>
-                <execution>
-                    <goals>
-                        <goal>exec</goal>
-                    </goals>
-                </execution>
-            </executions>
-            <configuration>
-                <executable>mvn</executable>
-                <arguments>
-                    <argument>-version</argument>
-                </arguments>
-            </configuration>
-        </plugin>
-    </plugins>
-</build>
 </project>
