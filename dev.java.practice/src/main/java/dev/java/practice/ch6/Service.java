@@ -16,8 +16,4 @@ public class Service {
 	public void method3() {
 		System.out.println("실행 내용3");
 	}
-
-	public boolean method3() {
-		return true;
-	}
 }
