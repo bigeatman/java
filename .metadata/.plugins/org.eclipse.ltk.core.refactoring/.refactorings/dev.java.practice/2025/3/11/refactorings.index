@@ -9,3 +9,7 @@
 1741865842786	Rename local variable 'mathScores'
 1741865847049	Rename local variable 'englishSCORE'
 1741867152778	Rename enum constant 'FIRDAY'
+1741941871751	Rename local variable 'k1'
+1741942284306	Rename type 'Calculaotr'
+1741942405384	Rename local variable 'cal'
+1741942989518	Rename method 'setCas'
