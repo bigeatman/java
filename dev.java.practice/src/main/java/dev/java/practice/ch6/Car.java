@@ -33,7 +33,7 @@ public class Car {
 		this.maxSpeed = maxSpeed;
 	}
 
-	void setGas(int gas) {
+	public void setGas(int gas) {
 		this.gas = gas;
 	}
 

@@ -13,6 +13,5 @@ public class Main {
 
 		A.C.field2 = 3;
 		A.C.method2();
-
 	}
 }
