@@ -1,9 +1,0 @@
-package dev.java.practice.ch3;
-
-public class StringEqualsExample {
-	public StringEqualsExample() {
-		String strVal1 = "신민철";
-		String strVar2 = "신민철";
-		String strVar3 = new String("신민철");
-	}
-}
