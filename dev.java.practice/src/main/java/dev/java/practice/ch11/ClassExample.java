@@ -1,6 +1,6 @@
 package dev.java.practice.ch11;
 
-import dev.java.practice.ch6.Car;
+import dev.java.practice.ch06.Car;
 
 public class ClassExample {
 	public ClassExample() {

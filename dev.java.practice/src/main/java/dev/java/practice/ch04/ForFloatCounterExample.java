@@ -1,0 +1,9 @@
+package dev.java.practice.ch04;
+
+public class ForFloatCounterExample {
+	public ForFloatCounterExample() {
+		for (float x = 0.1f; x <= 1.0f; x += 0.1f) {
+			System.out.println(x);
+		}
+	}
+}
