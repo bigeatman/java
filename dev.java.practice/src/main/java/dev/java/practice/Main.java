@@ -11,39 +11,11 @@ public class Main {
 	private static final String DIRECTORY = System.getProperty("user.dir") + "\\src\\main\\java\\dev\\java\\practice";
 
 	public static void main(String[] args) throws Exception {
-//		try {
-//			Class.forName(getLastChangedClass()).getConstructor(null).newInstance(null);
-//		} catch (NoSuchMethodException e) {
-//			Class.forName(getLastChangedClass()).getConstructor(String[].class).newInstance((Object) args);
-//		}
-
-		testMethod();
-	}
-
-	private static void testMethod() {
-		Runnable runnable = new Runnable() {
-
-			@Override
-			public void run() {
-				int sum = 0;
-				for (int i = 0; i <= (Integer.MAX_VALUE) / 2; i++) {
-					sum = sum + i;
-				}
-
-				System.out.println(sum);
-				try {
-					Thread.sleep(3000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				System.out.println("안끝났는데?");
-			}
-		};
-
-		Thread thread = new Thread(runnable);
-		thread.start();
-		thread.interrupt();
-		System.out.println("인터럽트 발생");
+		try {
+			Class.forName(getLastChangedClass()).getConstructor(null).newInstance(null);
+		} catch (NoSuchMethodException e) {
+			Class.forName(getLastChangedClass()).getConstructor(String[].class).newInstance((Object) args);
+		}
 	}
 
 	private static String getLastChangedClass() throws Exception {
