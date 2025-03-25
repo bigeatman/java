@@ -10,7 +10,9 @@ public class PropertiesExample {
 	public PropertiesExample() throws FileNotFoundException, IOException {
 		Properties properties = new Properties();
 		String path = PropertiesExample.class.getResource("/database.properties").getPath();
+		System.out.println(path);
 		path = URLDecoder.decode(path, "UTF-8");
+		System.out.println(path);
 		properties.load(new FileReader(path));
 
 		String driver = properties.getProperty("driver");

@@ -24,6 +24,5 @@ public class TreeMapExample2 {
 		for (Entry<Integer, String> entry : entrySet) {
 			System.out.println(entry.getKey() + " : " + entry.getValue());
 		}
-
 	}
 }
