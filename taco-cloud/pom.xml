@@ -38,7 +38,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -56,10 +55,8 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-		  <groupId>org.apache.maven.plugins</groupId>
-		  <artifactId>maven-source-plugin</artifactId>
-		  <version>3.2.0</version>
-		  <type>maven-plugin</type>
+		  <groupId>org.hibernate.validator</groupId>
+		  <artifactId>hibernate-validator</artifactId>
 		</dependency>
 	</dependencies>
 	<build>
