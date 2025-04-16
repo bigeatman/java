@@ -1,5 +1,7 @@
 package dev.java.pratice.spring.taco.controller;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -67,15 +69,14 @@ public class DesignTacoController {
 	public Taco taco() {
 		return new Taco();
 	}
-	
+
 	@ModelAttribute(name = "order")
 	public Order order() {
 		return new Order();
 	}
 
 	private void addIngredientToModel(Model model) {
-		Map<Type, List<Ingredient>> map = ingredientRepo.findAll().stream()
-				.collect(Collectors.groupingBy(Ingredient::getType));
+		Map<Type, List<Ingredient>> map = ingredientRepo.findAll().stream().collect(Collectors.groupingBy(Ingredient::getType));
 
 		map.entrySet().forEach(e -> {
 			model.asMap().computeIfAbsent(e.getKey().toString().toLowerCase(), v -> e.getValue());

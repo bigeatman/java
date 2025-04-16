@@ -1,15 +1,10 @@
 package dev.java.pratice.spring.taco.repository;
 
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 
 import dev.java.pratice.spring.taco.model.Ingredient;
-import dev.java.pratice.spring.taco.model.Taco;
 
-public interface IngredientRepository {
+public interface IngredientRepository extends JpaRepository<Ingredient, String> {
 
-	List<Ingredient> findAll();
-
-	Ingredient findByid(String id);
-
-	Ingredient save(Ingredient ingredient);
 }
