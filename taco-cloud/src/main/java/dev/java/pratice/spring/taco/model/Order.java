@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
@@ -30,43 +32,46 @@ public class Order implements Serializable {
 
 	private static final long serialVersionUID = -4388244347189082315L;
 
+	@ManyToOne
+	private Users users;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column(name="placedat")
+	@Column(name = "placedat")
 	private Date placedAt;
 
 	@NotBlank(message = "Name is required")
-	@Column(name="deliveryname")
+	@Column(name = "deliveryname")
 	private String deliveryName;
 
 	@NotBlank(message = "Street is required")
-	@Column(name="deliverystreet")
+	@Column(name = "deliverystreet")
 	private String deliveryStreet;
 
 	@NotBlank(message = "City is required")
-	@Column(name="deliverycity")
+	@Column(name = "deliverycity")
 	private String deliveryCity;
 
 	@NotBlank(message = "State is required")
-	@Column(name="deliverystate")
+	@Column(name = "deliverystate")
 	private String deliveryState;
 
 	@NotBlank(message = "Zip code is required")
-	@Column(name="deliveryzip")
+	@Column(name = "deliveryzip")
 	private String deliveryZip;
 
 	@CreditCardNumber(message = "Not a valid credit card Number")
-	@Column(name="ccnumber")
+	@Column(name = "ccnumber")
 	private String ccNumber;
 
 	@Pattern(regexp = "^(0[1-9]|1[0-2])([\\/])([1-9][0-9])$", message = "Not a valid expiration")
-	@Column(name="ccexpiration")
+	@Column(name = "ccexpiration")
 	private String ccExpiration;
 
 	@Digits(integer = 3, fraction = 0, message = "Invalid CVV")
-	@Column(name="cccvv")
+	@Column(name = "cccvv")
 	private String ccCVV;
 
 	@ManyToMany(targetEntity = Taco.class)
@@ -80,5 +85,13 @@ public class Order implements Serializable {
 	@PrePersist
 	void platedAt() {
 		this.placedAt = new Date();
+	}
+
+	public void setDeliveryInfosFromUsers(Users users) {
+		this.deliveryName = Objects.requireNonNullElse(this.deliveryName, users.getFullname());
+		this.deliveryStreet = Objects.requireNonNullElse(this.deliveryStreet, users.getStreet());
+		this.deliveryCity = Objects.requireNonNullElse(this.deliveryCity, users.getCity());
+		this.deliveryState = Objects.requireNonNullElse(this.deliveryState, users.getState());
+		this.deliveryZip = Objects.requireNonNullElse(this.deliveryZip, users.getZip());
 	}
 }

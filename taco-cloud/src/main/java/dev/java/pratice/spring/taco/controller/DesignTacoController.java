@@ -1,5 +1,6 @@
 package dev.java.pratice.spring.taco.controller;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -19,8 +20,10 @@ import dev.java.pratice.spring.taco.model.Ingredient;
 import dev.java.pratice.spring.taco.model.Ingredient.Type;
 import dev.java.pratice.spring.taco.model.Order;
 import dev.java.pratice.spring.taco.model.Taco;
+import dev.java.pratice.spring.taco.model.Users;
 import dev.java.pratice.spring.taco.repository.IngredientRepository;
 import dev.java.pratice.spring.taco.repository.TacoRepository;
+import dev.java.pratice.spring.taco.repository.UsersRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -33,19 +36,25 @@ public class DesignTacoController {
 
 	private final TacoRepository tacoRepo;
 
-	public DesignTacoController(IngredientRepository ingredientRepository, TacoRepository tacoRepo) {
+	private final UsersRepository userRepo;
+
+	public DesignTacoController(IngredientRepository ingredientRepo, TacoRepository tacoRepo,
+			UsersRepository userRepo) {
 		super();
-		this.ingredientRepo = ingredientRepository;
+		this.ingredientRepo = ingredientRepo;
 		this.tacoRepo = tacoRepo;
+		this.userRepo = userRepo;
 	}
 
 	@GetMapping
-	public String showDesignFrom(Model model) {
+	public String showDesignFrom(Model model, Principal principal) {
 
 		addIngredientToModel(model);
 
-		model.asMap().computeIfAbsent("taco", key -> new Taco());
-
+		String userName = principal.getName();
+		Users users = userRepo.findByUsername(userName);
+		model.addAttribute("user", users);
+		
 		return "design";
 	}
 
@@ -75,7 +84,8 @@ public class DesignTacoController {
 	}
 
 	private void addIngredientToModel(Model model) {
-		Map<Type, List<Ingredient>> map = ingredientRepo.findAll().stream().collect(Collectors.groupingBy(Ingredient::getType));
+		Map<Type, List<Ingredient>> map = ingredientRepo.findAll().stream()
+				.collect(Collectors.groupingBy(Ingredient::getType));
 
 		map.entrySet().forEach(e -> {
 			model.asMap().computeIfAbsent(e.getKey().toString().toLowerCase(), v -> e.getValue());

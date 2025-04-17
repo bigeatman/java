@@ -1,4 +1,4 @@
-package dev.java.pratice.spring.taco.controller;
+package dev.java.pratice.spring.taco.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -10,6 +10,7 @@ public class WebConfig implements WebMvcConfigurer {
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/").setViewName("home");
+		registry.addViewController("/login");
 	}
 
 }

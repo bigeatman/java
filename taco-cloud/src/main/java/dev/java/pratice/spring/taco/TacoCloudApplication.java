@@ -19,7 +19,6 @@ public class TacoCloudApplication {
 	@Bean
 	CommandLineRunner dataLoader(IngredientRepository repo) {
 		return new CommandLineRunner() {
-
 			@Override
 			public void run(String... args) throws Exception {
 				repo.save(new Ingredient("FLTO", "Flour Tortilla", Type.WRAP));

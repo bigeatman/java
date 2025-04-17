@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Taco Cloud</title>
+<link rel="stylesheet" th:href="@{/styles.css}" />
+</head>
+<body>
+	<h1>Register</h1>
+	<form method="POST" th:action="@{/register}" id="registerForm">
+		<label for="username">Username: </label>
+		<input type="text" name="username"></input>
+		<br />
+
+		<label for="password">password: </label>
+		<input type="text" name="password"></input>
+		<br />
+
+		<label for="fullname">fullname: </label>
+		<input type="text" name="fullname"></input>
+		<br />
+
+		<label for="street">street: </label>
+		<input type="text" name="street"></input>
+		<br />
+
+		<label for="city">city: </label>
+		<input type="text" name="city"></input>
+		<br />
+
+		<label for="state">state: </label>
+		<input type="text" name="state"></input>
+		<br />
+
+		<label for="zip">zip: </label>
+		<input type="text" name="zip"></input>
+		<br />
+
+		<label for="phoneNumber">phoneNumber: </label>
+		<input type="text" name="phoneNumber"></input>
+		<br />
+
+		<input type="submit" value="Register" />
+	</form>
+</body>
+</html>
