@@ -1,9 +1,14 @@
 package dev.java.pratice.spring.taco.controller;
 
 import javax.validation.Valid;
-import org.springframework.boot.CommandLineRunner;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -12,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import dev.java.pratice.spring.taco.config.OrderProps;
 import dev.java.pratice.spring.taco.model.Order;
 import dev.java.pratice.spring.taco.model.Users;
 import dev.java.pratice.spring.taco.repository.OrderRepository;
@@ -23,12 +29,11 @@ import lombok.extern.slf4j.Slf4j;
 @SessionAttributes("order")
 public class OrderController {
 
-	private OrderRepository orderRepo;
+	@Autowired
+	private OrderProps orderProps;
 
-	public OrderController(OrderRepository orderRepo) {
-		super();
-		this.orderRepo = orderRepo;
-	}
+	@Autowired
+	private OrderRepository orderRepo;
 
 	@GetMapping("/current")
 	public String orderForm(@AuthenticationPrincipal Users users, @ModelAttribute Order order) {
@@ -45,7 +50,7 @@ public class OrderController {
 		}
 
 		order.setUsers(users);
-
+		
 		log.info("Order submittecd : " + order);
 		orderRepo.save(order);
 		ss.setComplete();
@@ -53,4 +58,10 @@ public class OrderController {
 		return "redirect:/";
 	}
 
+	@GetMapping
+	public String ordersForUser(@AuthenticationPrincipal Users user, Model model) {
+		Pageable pageable = PageRequest.of(0, orderProps.getPageSize());
+		model.addAttribute("orders", orderRepo.findByUsersOrderByPlacedAtDesc(user, pageable));
+		return "orderList";
+	}
 }
