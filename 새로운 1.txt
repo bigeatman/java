@@ -1,0 +1,84 @@
+----------------------------------------
+# 도커 이미지 다운로드
+docker pull tomcat:8.5.93-jdk8
+docker pull nginx:1.24
+docker pull truevoly/oracle-12c
+
+# 각 컨테이너를 연결하기 위한 네트워크 생성
+docker network create testNetwork
+
+# 컨테이너 실행
+docker run -d -p 80:80 --name testNginx --network testNetwork nginx:1.24 
+docker run -d -p 8080:8080 --memory="512m" --name testTomcat --network testNetwork tomcat:8.5.93-jdk8
+docker run -d -p 1521:1521 --name testOracle --network testNetwork truevoly/oracle-12c ./entrypoint.sh
+
+# nginx와 tomcat 연결을 위해 /etc/nginx/nginx.conf의 http 블럭 내에 다음과 같은 내용 추가
+	server {
+		listen 80;
+		
+		server_name testTomcat;
+		
+		location / {
+			proxy_pass http://testTomcat:8080;
+			proxy_set_header Host $host;
+			proxy_set_header X-Real-IP $remote_addr;
+			proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+			proxy_set_header X-Forwarded-Proto $scheme;
+		}
+	}
+
+	* server_name -> url 지정
+		- 서버 블록이 처리할 URL을 정의
+		- 지정된 URL이나 도메인 이름에 대해서만 이 서버 블럭이 요청을 처리
+		- localhost로 입력할 경우, 모든 요청을 받음
+	* location / 
+		- server_name에 해당하는 URL 뒤의 경로에 대한 요청 처리 방법 정의
+		- "/"은 기본적으로 모든 경로에 대해 처리하라는 의미
+		- "/api"의 경우, server_name/api에 대한 요청만 처리
+		- 정규 표현식이나 파이프 문자(|)를 통해 다수의 URL 지정 가능
+		- 프록시 서버는 요청을 원래 서버로 전달할 때 모든 헤더를 자동으로 전달하지 않기 때문에 이를 명시적으로 설정
+
+# 오라클 계정 Unlock (testOracle)
+sqlplus sys as sysdba
+Enter password:oracle
+alter user scott account unlock;
+grant connect, resource, dbat to scott;
+
+conn scott
+Enter password:tiger
+ERROR:
+ORA-28001: the password has expired
+
+Changing password for scott
+New password: tiger
+Retype new password: tiger
+Password changed
+Connected.
+
+#기본 테이블들 제거
+BEGIN
+	FOR t IN (SELECT table_name FROM user_tables) LOOP
+		EXECUTE IMMEDIATE 'DROP TABLE ' || t.table_name || ' CASCADE CONSTRAINTS';
+	END LOOP;
+END;
+
+# maxThread=200 및 maxActive=50 설정
+testTomcat 컨테이너에서 /usr/local/tomcat/conf/server.xml에 maxThreads="200" 추가
+<Connector	port="8080" 
+			protocol="HTTP/1.1"
+			connectionTimeout="20000"
+			redirectPort="8443"
+			maxThreads="200"
+			maxParameterCount="1000"/>
+
+testTomcat 컨테이너에서 /usr/local/tomcat/conf/context.xml에 오라클과 연결하기 위한 XML 블럭을 추가하고, maxTotal="50"추가
+<Resource name="jdbc/OracleDS"
+              auth="Container"
+              type="javax.sql.DataSource"
+              driverClassName="oracle.jdbc.OracleDriver"
+              url="jdbc:oracle:thin:@testOracle:1521:xe"
+              username="scott"
+              password="tiger"
+              maxTotal="50"
+              maxIdle="10"
+              maxWaitMillis="10000" />

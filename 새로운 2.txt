@@ -1,0 +1,73 @@
+김동훈님, 안녕하세요. (주)인트브릿지 채용담당자 입니다.
+먼저 당사의 ‘시스템 오류 트러블슈팅·백엔드 개발자’에 지원하여 주신 점 감사합니다.
+심사 결과 서류전형에 합격하셨음을 알려드립니다. 진심으로 축하 드립니다.
+
+다음 전형에 대해서 안내 드리오니 아래 사항을 반드시 확인해 주시기 바랍니다.
+
+?실무 트러블 슈팅 과제
+
+과제명: Tomcat 스레드 고갈 — Root-Cause 분석 & 패치 시나리오 작성
+대상: 시스템 오류 트러블슈팅·백엔드 개발자 지원자
+제출 기한: ~5.18(일) 까지
+제출 형식:
+- PDF 보고서(10 쪽 이내)
+- 재현·패치 스크립트(Bash Shell 또는 Docker Compose 등) 및 소스코드 ZIP
+
+1. 시나리오 배경
+
+서비스 구성
+Nginx 1.24 (리버스 프록시)
+Tomcat 8.5.93 (Java 8) – 스레드 풀 maxThreads=200, 커넥터 포트 8080
+Oracle 12c (JDBC 풀 maxActive=50)
+
+⛔ 금요일 22:00, 모니터링 시스템에서 HTTP 502 Bad Gateway 알람이 대량 발생했습니다.
+
+- curl 결과가 간헐적으로 502 ▶ 수분 내 전면 장애로 확대
+- 인프라 지표:
+CPU·메모리 평소 수준
+netstat -antp | grep ":8080" ESTABLISHED > 200 개
+ps -eLf | grep java 스레드 수 ≈ 400 개(평소 120)
+- catalina.out 일부 로그:
+...
+org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run
+java.lang.OutOfMemoryError: unable to create new native thread
+...
+org.apache.coyote.AbstractProtocol pause
+INFO Pausing ProtocolHandler ["http-nio-8080"]
+
+2. 과제 목표
+
+1) 장애 재현
+Docker 또는 로컬 환경에서 위 구성을 최소화(단일 Tomcat)해 재현 스크립트 작성
+JMeter/k6 등으로 부하를 걸어 스레드 고갈 현상을 재현하고 증빙(스크린샷·로그) 제시
+2) Root-Cause 분석
+Tomcat‧JVM·애플리케이션·DB 레이어 중 실제 병목 구간 식별
+사용 도구·명령어(예: `jstack`, `ps`, `top`, `jstat`, APM)와 함께 분석 이유 설명
+3) 패치(Hot-Fix) 제시
+긴급 조치: 서비스 재시작 외에 30 분 내 적용 가능한 설정, 코드 수정안
+영구 조치: 코드 리팩터링·ThreadPool 전략·DB 풀, 쿼리 개선 등
+4) 보고서 작성
+원인 → 증거(Log, Dump, Metric) → 조치안 → 예방책 순으로 기술
+재현 환경 스크립트 사용 방법 포함
+예상 위험, 부작용 및 롤백 계획 기재
+
+3. 평가 기준 (100 점)
+
+1) 재현 정확성: 25점
+- 동일 증상 재현 여부, 부하·환경 설정의 현실성
+2) Root-Cause 논리: 30점
+- 데이터 기반 추론, 스레드 및 커넥션 흐름 이해도
+3) 패치 완성도: 25점
+- 긴급·영구 대책의 실효성, 적용 난이도, 부작용 고려
+4) 문서 품질: 10점
+- 구조적 서술, 가독성, 용어·지표 정확도
+5) 자동화·스크립트: 10점
+- Dockerfile, Bash, CI 스크립트 등 실행 재현 용이성
+
+4. 제출 및 문의
+
+- 이메일: sikim@intbridge.co.kr (제목: [Tomcat과제] 이름)
+- 소스코드·스크립트는 루트 디렉터리 실행만으로 재현 가능해야 합니다.
+- 문의는 메일로만 받으며, 최대 12 시간 이내 답변 드릴 수 있도록 하겠습니다.
+
+좋은 결과를 기대하겠습니다!
