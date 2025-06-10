@@ -1,0 +1,49 @@
+table Ingredient {
+  id ingeger [primary key]
+  name varchar
+  type varchar
+}
+
+table Taco {
+  id integer [primary key]
+  name varchar
+  createdAt timestamp
+}
+
+table Users {
+  id integer
+  username varchar
+  password varchar
+  fullname varchar
+  total_order_count integer
+}
+
+table Taco_Ingredients {
+  taco integer
+  ingredient varchar
+}
+
+table Taco_Order {
+  id integer [primary key]
+  deliveryName varchar
+  deliveryStreet varchar
+  deliveryCity varchar
+  deliveryState varchar
+  deliveryZip varchar
+  ccNumber varchar
+  ccExpiration varchar
+  ccCVV varchar
+  placedAt timestamp
+  user_id integer
+}
+
+table Taco_Order_Tacos {
+  tacoOrder integer
+  taco integer
+}
+
+Ref ti : Taco.id < Taco_Ingredients.taco
+Ref it : Ingredient.id < Taco_Ingredients.ingredient
+Ref tt : Taco_Order.id < Taco_Order_Tacos.tacoOrder
+Ref ttt : Taco.id < Taco_Order_Tacos.taco
+Ref uo : Users.id < Taco_Order.user_id

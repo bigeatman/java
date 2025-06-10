@@ -13,19 +13,19 @@ docker run -d -p 8080:8080 --memory="512m" --name testTomcat --network testNetwo
 docker run -d -p 1521:1521 --name testOracle --network testNetwork truevoly/oracle-12c ./entrypoint.sh
 
 # nginx와 tomcat 연결을 위해 /etc/nginx/nginx.conf의 http 블럭 내에 다음과 같은 내용 추가
-	server {
-		listen 80;
-		
-		server_name testTomcat;
-		
-		location / {
-			proxy_pass http://testTomcat:8080;
-			proxy_set_header Host $host;
-			proxy_set_header X-Real-IP $remote_addr;
-			proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-			proxy_set_header X-Forwarded-Proto $scheme;
-		}
+server {
+	listen 80;
+	
+	server_name testTomcat;
+	
+	location / {
+		proxy_pass http://testTomcat:8080;
+		proxy_set_header Host $host;
+		proxy_set_header X-Real-IP $remote_addr;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_set_header X-Forwarded-Proto $scheme;
 	}
+}
 
 	* server_name -> url 지정
 		- 서버 블록이 처리할 URL을 정의
@@ -64,11 +64,11 @@ END;
 
 # maxThread=200 및 maxActive=50 설정
 testTomcat 컨테이너에서 /usr/local/tomcat/conf/server.xml에 maxThreads="200" 추가
-<Connector	port="8080" 
-			protocol="HTTP/1.1"
-			connectionTimeout="20000"
+<Connector	port="8080" protocol="HTTP/1.1"
+			connectionTimeout="2000"
 			redirectPort="8443"
 			maxThreads="200"
+			acceptCount="0"
 			maxParameterCount="1000"/>
 
 testTomcat 컨테이너에서 /usr/local/tomcat/conf/context.xml에 오라클과 연결하기 위한 XML 블럭을 추가하고, maxTotal="50"추가
@@ -82,3 +82,24 @@ testTomcat 컨테이너에서 /usr/local/tomcat/conf/context.xml에 오라클과
               maxTotal="50"
               maxIdle="10"
               maxWaitMillis="10000" />
+			  
+			  
+			  
+# JDBC 커낵션  풀하고 톰캣 커낵션 풀하고 분리
+server.xml에 다음 내용 추가
+
+ 	<Executor name="tomcatExecutor" 
+				namePrefix="catalina-exec-" 
+				maxThreads="200" 
+				minSpareThreads="50" 
+				maxIdleTime="60000" 
+				threadPriority="5" />
+				
+	<Connector	port="8080" protocol="HTTP/1.1"
+				connectionTimeout="20000"
+				redirectPort="8443"
+				maxThreads="200"
+				acceptCount="100"
+				maxConnections="200"
+				maxParameterCount="1000" 
+				executor="tomcatExecutor"/>

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -83,16 +82,8 @@ public class RandomOrderController {
 			throw new NoSuchElementException("Users " + Literals.USERS_ID[userRandomIndex] + " not found");
 		}
 		
-		List<Taco> tacos = orderRepo.findByUsersUsername(users.getUsername()).stream()
-			    .flatMap(order -> order.getTacos().stream())
-			    .collect(Collectors.toList());
-		
-		users.setTotalOrderCount(tacos.size());
-		usersRepo.save(users);
-		
 		return users;
 	}
-	
 
 	private List<Taco> createRandomTacos() {
 		List<Taco> tacos = new ArrayList<>();
